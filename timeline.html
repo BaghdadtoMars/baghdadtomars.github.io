@@ -3,73 +3,535 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Detailed Levant Timeline (1918-1939)</title>
+    <title>Jerusalem Statistics</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            max-width: 1000px;
+        .top_styles_container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+            max-width: 1200px;
             margin: 0 auto;
             padding: 20px;
-            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
         }
-        .timeline {
-            position: relative;
-            padding: 20px 0;
+        .top_styles_card {
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            width: 300px;
+            flex-grow: 1;
         }
-        .event {
-            padding: 10px 0;
-            position: relative;
-            background-color: inherit;
-            width: 100%;
-        }
-        .event-content {
-            padding: 15px;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-        .event-date, .event-country {
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-        .turkey .event-content { background-color: #e74c3c; color: white; }
-        .levant .event-content { background-color: #3498db; color: white; }
-        .palestine .event-content { background-color: #2ecc71; color: white; }
-        .egypt .event-content { background-color: #9b59b6; color: white; }
-        .gulf-states .event-content { background-color: #1abc9c; color: white; }
-        .regional .event-content { background-color: #34495e; color: white; }
-        .legend {
-            display: flex;
-            justify-content: space-around;
+        .top_styles_card h2 {
+            color: #333;
+            text-align: center;
             margin-bottom: 20px;
-            flex-wrap: wrap;
+            font-size: 24px;
         }
-        .legend-item {
-            display: flex;
-            align-items: center;
-            margin: 5px;
+        .top_styles_stats {
+            display: grid;
+            gap: 15px;
         }
-        .legend-color {
-            width: 20px;
-            height: 20px;
-            margin-right: 5px;
+        .top_styles_stats.grid {
+            grid-template-columns: 1fr 1fr;
         }
-        .year-marker {
+        .top_styles_stats.stack {
+            grid-template-columns: 1fr;
+        }
+        .top_styles_stat-item {
+            background-color: #f8f8f8;
+            border-radius: 4px;
+            padding: 10px;
+            text-align: center;
+        }
+        .top_styles_stat-number {
             font-size: 24px;
             font-weight: bold;
-            margin-top: 30px;
-            margin-bottom: 15px;
-            background-color: #333;
-            color: #fff;
-            padding: 5px 15px;
-            border-radius: 20px;
-            display: inline-block;
+            color: #4a90e2;
+            margin-bottom: 5px;
+        }
+        .top_styles_stat-label {
+            font-size: 14px;
+            color: #666;
         }
     </style>
 </head>
 <body>
-    <p><a href="index.html">Back to Home</a></p>
+    <header>
+        <h1>Context for: <br><em>Palestine 1936: The Great Revolt and the Roots of the Middle East Conflict</em><br> by Oren Kessler</h1>
+    </header>
+    
+    <div class="top_styles_container">
+        <div class="top_styles_card">
+            <h2>Jerusalem</h2>
+            <div class="top_styles_stats grid">
+                <div class="top_styles_stat-item">
+                    <div class="top_styles_stat-number">2</div>
+                    <div class="top_styles_stat-label">Times Destroyed</div>
+                </div>
+                <div class="top_styles_stat-item">
+                    <div class="top_styles_stat-number">23</div>
+                    <div class="top_styles_stat-label">Times Besieged</div>
+                </div>
+                <div class="top_styles_stat-item">
+                    <div class="top_styles_stat-number">44</div>
+                    <div class="top_styles_stat-label">Times Captured/Recaptured</div>
+                </div>
+                <div class="top_styles_stat-item">
+                    <div class="top_styles_stat-number">52</div>
+                    <div class="top_styles_stat-label">Times Attacked</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="top_styles_card">
+            <h2>Religious Control (in years)</h2>
+            <div class="top_styles_stats stack">
+                <div class="top_styles_stat-item">
+                    <div class="top_styles_stat-number">1283</div>
+                    <div class="top_styles_stat-label">Islam</div>
+                </div>
+                <div class="top_styles_stat-item">
+                    <div class="top_styles_stat-number">1197</div>
+                    <div class="top_styles_stat-label">Judaism</div>
+                </div>
+                <div class="top_styles_stat-item">
+                    <div class="top_styles_stat-number">410</div>
+                    <div class="top_styles_stat-label">Christianity</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="top_styles_card">
+            <h2>Controlled by (in years)</h2>
+            <div class="top_styles_stats stack">
+                <div class="top_styles_stat-item">
+                    <div class="top_styles_stat-number">683</div>
+                    <div class="top_styles_stat-label">Romans</div>
+                </div>
+                <div class="top_styles_stat-item">
+                    <div class="top_styles_stat-number">414?</div>
+                    <div class="top_styles_stat-label">Judahites</div>
+                </div>
+                <div class="top_styles_stat-item">
+                    <div class="top_styles_stat-number">401</div>
+                    <div class="top_styles_stat-label">Ottomans</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div style="text-align: center; padding: 20px;">
+        <a href="https://usefulcharts.com" style="font-size: 24px; text-decoration: none; color: #0066cc;">The above info is from Useful Charts</a>
+      </div>
+    
+
+    <title>Detailed Levant Timeline (1918-1939)</title>
+    <style>
+    body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f0f0f0;
+    }
+    .timeline {
+        position: relative;
+        padding: 20px 0;
+    }
+    .event {
+        padding: 10px 0;
+        position: relative;
+        background-color: inherit;
+        width: 100%;
+    }
+    .event-content {
+        padding: 15px;
+        border-radius: 5px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .event-date, .event-country {
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+    .turkey .event-content { background-color: #e74c3c; color: white; }
+    .levant .event-content { background-color: #3498db; color: white; }
+    .syria .event-content { background-color: #3498db; color: white; }
+    .iraq .event-content { background-color: #3498db; color: white; }
+    .lebanon .event-content { background-color: #3498db; color: white; }
+    .jordan .event-content { background-color: #3498db; color: white; }
+    .palestine .event-content { background-color: #2ecc71; color: white; }
+    .egypt .event-content { background-color: #9b59b6; color: white; }
+    .gulf-states .event-content { background-color: #1abc9c; color: white; }
+    .saudi .event-content { background-color: #1abc9c; color: white; }
+    .kuwait .event-content { background-color: #1abc9c; color: white; }
+    .regional .event-content { background-color: #34495e; color: white; }
+    .legend {
+        display: flex;
+        justify-content: space-around;
+        margin-bottom: 20px;
+        flex-wrap: wrap;
+    }
+    .legend-item {
+        display: flex;
+        align-items: center;
+        margin: 5px;
+    }
+    .legend-color {
+        width: 20px;
+        height: 20px;
+        margin-right: 5px;
+    }
+    .year-marker {
+        font-size: 54px;
+        font-weight: bold;
+        margin-top: 30px;
+        margin-bottom: 15px;
+        background-color: #333;
+        color: #fff;
+        padding: 5px 15px;
+        border-radius: 20px;
+        display: inline-block;
+    }
+
+    .king-crane-results {
+        background-color: #f9f9f9;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        padding: 20px;
+        margin: 20px 0;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .king-crane-results h3 {
+        margin-top: 0;
+        color: #333;
+    }
+    .king-crane-results table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 10px;
+    }
+    .king-crane-results th, 
+    .king-crane-results td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+    }
+    .king-crane-results th {
+        background-color: #e9e9e9;
+    }
+    .king-crane-results tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+    .king-crane-results tr:hover {
+        background-color: #e9e9e9;
+    }
+    .pop_table_chart {
+        font-family: Arial, sans-serif;
+        background-color: white;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        padding: 20px;
+        width: 800px;
+        margin: 20px auto;
+    }
+    .pop_table_year-group {
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        margin-bottom: 20px;
+        padding: 10px;
+    }
+    .pop_table_year-label {
+        font-size: 1.2em;
+        font-weight: bold;
+        margin-bottom: 10px;
+        color: #2c3e50;
+    }
+    .pop_table_bar-container {
+        display: flex;
+        align-items: center;
+        margin: 10px 0;
+    }
+    .pop_table_group-label {
+        width: 80px;
+        text-align: right;
+        padding-right: 10px;
+        color: #2c3e50;
+    }
+    .pop_table_bar-wrapper {
+        flex-grow: 1;
+        background-color: #ecf0f1;
+        border-radius: 5px;
+        overflow: hidden;
+    }
+    .pop_table_bar {
+        height: 30px;
+        position: relative;
+    }
+    .pop_table_bar-value {
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: white;
+        font-weight: bold;
+    }
+    .pop_table_chart h2 {
+        text-align: center;
+        color: #2c3e50;
+    }
+    .pop_table_muslims { background-color: #2ecc71; }
+    .pop_table_jews { background-color: #3498db; }
+    .pop_table_christians { background-color: #f1c40f; }
+    .pop_table_total { background-color: #34495e; }
+    .j_immigration_chart {
+        font-family: Arial, sans-serif;
+        background-color: white;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        padding: 20px;
+        width: 500px;
+        margin: 20px auto;
+    }
+    .j_immigration_bar-container {
+        display: flex;
+        align-items: center;
+        margin: 10px 0;
+    }
+    .j_immigration_date-label {
+        width: 100px;
+        text-align: right;
+        padding-right: 10px;
+        color: #2c3e50;
+    }
+    .j_immigration_bar-wrapper {
+        flex-grow: 1;
+        background-color: #ecf0f1;
+        border-radius: 5px;
+        overflow: hidden;
+    }
+    .j_immigration_bar {
+        height: 30px;
+        background-color: #3498db;
+        position: relative;
+    }
+    .j_immigration_bar-value {
+        position: absolute;
+        right: 5px;
+        top: 5px;
+        color: white;
+    }
+    .j_immigration_chart h2 {
+        text-align: center;
+        color: #2c3e50;
+    }
+    .chart-image-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: stretch;
+        margin: 20px auto;
+        max-width: 1000px;
+        background-color: white;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        overflow: hidden;
+    }
+
+    .j_immigration_chart {
+        flex: 1;
+        padding: 20px;
+        margin: 0;
+        width: auto;
+    }
+    .timeline-image {
+        width: 300px;
+        height: auto;
+        object-fit: cover;
+        flex: none;
+        border: 2px solid rgb(37, 37, 37);
+    }
+
+    .event.turkey,
+    .event.syria,
+    .event.iraq,
+    .event.lebanon,
+    .event.saudi,
+    .event.jordan,
+    .event.palestine,
+    .event.kuwait,
+    .event.regional {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .event.turkey .event-content,
+    .event.syria .event-content,
+    .event.iraq .event-content,
+    .event.lebanon .event-content,
+    .event.saudi .event-content,
+    .event.jordan .event-content,
+    .event.palestine .event-content,
+    .event.kuwait .event-content,
+    .event.regional .event-content {
+        position: relative;
+        padding-right: 140px;
+    }
+
+    .event.turkey .event-content::after,
+    .event.syria .event-content::after,
+    .event.iraq .event-content::after,
+    .event.lebanon .event-content::after,
+    .event.saudi .event-content::after,
+    .event.jordan .event-content::after,
+    .event.palestine .event-content::after,
+    .event.kuwait .event-content::after,
+    .event.regional .event-content::after {
+        content: '';
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 150px;
+        height: 100px;
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+        opacity: 0.7;
+    }
+
+    .event.turkey .event-content::after { background-image: url('turkey.png'); }
+    .event.syria .event-content::after { background-image: url('syria.png'); }
+    .event.iraq .event-content::after { background-image: url('iraq.png'); }
+    .event.lebanon .event-content::after { background-image: url('lebanon.png'); }
+    .event.saudi .event-content::after { background-image: url('saudi.png'); }
+    .event.jordan .event-content::after { background-image: url('jordan.png'); }
+    .event.palestine .event-content::after { background-image: url('palestine.png'); }
+    .event.kuwait .event-content::after { background-image: url('kuwait.png'); }
+    </style>
+</head>
+<body>
+    
+
+    
+
+    <title>Population Data 1914-1931</title>
+
+    <div class="pop_table_chart">
+        <h2>Population Data 1914-1931</h2>
+        <div class="pop_table_year-group">
+            <div class="pop_table_year-label">1914</div>
+            <div class="pop_table_bar-container">
+                <div class="pop_table_group-label">Christians</div>
+                <div class="pop_table_bar-wrapper">
+                    <div class="pop_table_bar pop_table_christians" style="width: 10.16%;">
+                        <span class="pop_table_bar-value">70,000</span>
+                    </div>
+                </div>
+            </div>
+            <div class="pop_table_bar-container">
+                <div class="pop_table_group-label">Jews</div>
+                <div class="pop_table_bar-wrapper">
+                    <div class="pop_table_bar pop_table_jews" style="width: 13.64%;">
+                        <span class="pop_table_bar-value">94,000</span>
+                    </div>
+                </div>
+            </div>
+            <div class="pop_table_bar-container">
+                <div class="pop_table_group-label">Muslims</div>
+                <div class="pop_table_bar-wrapper">
+                    <div class="pop_table_bar pop_table_muslims" style="width: 76.20%;">
+                        <span class="pop_table_bar-value">525,000</span>
+                    </div>
+                </div>
+            </div>
+            <div class="pop_table_bar-container">
+                <div class="pop_table_group-label">Total</div>
+                <div class="pop_table_bar-wrapper">
+                    <div class="pop_table_bar pop_table_total" style="width: 100%;">
+                        <span class="pop_table_bar-value">689,000</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="pop_table_year-group">
+            <div class="pop_table_year-label">1922</div>
+            <div class="pop_table_bar-container">
+                <div class="pop_table_group-label">Christians</div>
+                <div class="pop_table_bar-wrapper">
+                    <div class="pop_table_bar pop_table_christians" style="width: 9.44%;">
+                        <span class="pop_table_bar-value">71,000</span>
+                    </div>
+                </div>
+            </div>
+            <div class="pop_table_bar-container">
+                <div class="pop_table_group-label">Jews</div>
+                <div class="pop_table_bar-wrapper">
+                    <div class="pop_table_bar pop_table_jews" style="width: 11.17%;">
+                        <span class="pop_table_bar-value">84,000</span>
+                    </div>
+                </div>
+            </div>
+            <div class="pop_table_bar-container">
+                <div class="pop_table_group-label">Muslims</div>
+                <div class="pop_table_bar-wrapper">
+                    <div class="pop_table_bar pop_table_muslims" style="width: 78.32%;">
+                        <span class="pop_table_bar-value">589,000</span>
+                    </div>
+                </div>
+            </div>
+            <div class="pop_table_bar-container">
+                <div class="pop_table_group-label">Total</div>
+                <div class="pop_table_bar-wrapper">
+                    <div class="pop_table_bar pop_table_total" style="width: 100%;">
+                        <span class="pop_table_bar-value">752,000</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="pop_table_year-group">
+            <div class="pop_table_year-label">1931</div>
+            <div class="pop_table_bar-container">
+                <div class="pop_table_group-label">Christians</div>
+                <div class="pop_table_bar-wrapper">
+                    <div class="pop_table_bar pop_table_christians" style="width: 8.62%;">
+                        <span class="pop_table_bar-value">89,000</span>
+                    </div>
+                </div>
+            </div>
+            <div class="pop_table_bar-container">
+                <div class="pop_table_group-label">Jews</div>
+                <div class="pop_table_bar-wrapper">
+                    <div class="pop_table_bar pop_table_jews" style="width: 16.94%;">
+                        <span class="pop_table_bar-value">175,000</span>
+                    </div>
+                </div>
+            </div>
+            <div class="pop_table_bar-container">
+                <div class="pop_table_group-label">Muslims</div>
+                <div class="pop_table_bar-wrapper">
+                    <div class="pop_table_bar pop_table_muslims" style="width: 73.57%;">
+                        <span class="pop_table_bar-value">760,000</span>
+                    </div>
+                </div>
+            </div>
+            <div class="pop_table_bar-container">
+                <div class="pop_table_group-label">Total</div>
+                <div class="pop_table_bar-wrapper">
+                    <div class="pop_table_bar pop_table_total" style="width: 100%;">
+                        <span class="pop_table_bar-value">1,033,000</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+    
+
+
     <h1>Detailed Levant Timeline (1918-1939)</h1>
     <div class="legend">
         <div class="legend-item"><div class="legend-color" style="background-color: #e74c3c;"></div>Turkey</div>
@@ -79,7 +541,12 @@
         <div class="legend-item"><div class="legend-color" style="background-color: #1abc9c;"></div>Gulf States</div>
         <div class="legend-item"><div class="legend-color" style="background-color: #34495e;"></div>Regional/Other</div>
     </div>
+
+
+    
     <div class="timeline">
+
+        
 
 
         <div class="year-marker">1918</div>
@@ -100,7 +567,7 @@
             </div>
         </div>
 
-        <div class="event levant">
+        <div class="event syria">
             <div class="event-content">
                 <div class="event-date">1918</div>
                 <div class="event-country">Syria and Lebanon</div>
@@ -149,6 +616,128 @@
                 <p>U.S. King–Crane Commission submits report on the Levant</p>
             </div>
         </div>
+        
+        <div class="king-crane-results">
+            <h3>Selected Results from the King-Crane Commission Survey "The first-ever survey of Arab public opinion"</h3>
+            <h4>"Syria" = Modern day Syria, Iraq, Lebanon, Israel/Palestine, Jordan</h4>
+            <h4>Number = "number of petitions received"</h4>
+            <table border="1">
+                <thead>
+                    <tr>
+                        <th>Category</th>
+                        <th>Number</th>
+                        <th>Percent</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td colspan="3"><strong>A—Territorial Limits:</strong></td>
+                    </tr>
+                    <tr>
+                        <td>A1. For United Syria</td>
+                        <td>1500</td>
+                        <td>80.4%</td>
+                    </tr>
+                    <tr>
+                        <td>A2. For Separate Palestine</td>
+                        <td>6</td>
+                        <td>0.32%</td>
+                    </tr>
+                    <tr>
+                        <td colspan="3"><strong>B—Independence:</strong></td>
+                    </tr>
+                    <tr>
+                        <td>B1. For Absolute Independence of Syria</td>
+                        <td>1370</td>
+                        <td>73.5%</td>
+                    </tr>
+                    <tr>
+                        <td>B2. For Independence of Iraq (Mesopotamia)</td>
+                        <td>1278</td>
+                        <td>68.5%</td>
+                    </tr>
+                    <tr>
+                        <td>B3. For Independence of all Arab Countries</td>
+                        <td>97</td>
+                        <td>5.2%</td>
+                    </tr>
+                    <tr>
+                        <td colspan="3"><strong>C—Form of Government:</strong></td>
+                    </tr>
+                    <tr>
+                        <td>C1. For Democratic Kingdom</td>
+                        <td>1107</td>
+                        <td>59.3%</td>
+                    </tr>
+                    <tr>
+                        <td>C2. For Emir Feisal as King</td>
+                        <td>1102</td>
+                        <td>59%</td>
+                    </tr>
+                    <tr>
+                        <td>C3. For Democratic Representative Government</td>
+                        <td>34</td>
+                        <td>1.82%</td>
+                    </tr>
+                    <tr>
+                        <td>C4. For Guarding of Rights of Minorities</td>
+                        <td>1023</td>
+                        <td>54.9%</td>
+                    </tr>
+                    <tr>
+                        <td>C5. Arabic to be Official Language</td>
+                        <td>5</td>
+                        <td>0.27%</td>
+                    </tr>
+                    <tr>
+                        <td>C6. For Abolition of Foreign Capitulations</td>
+                        <td>10</td>
+                        <td>53%</td>
+                    </tr>
+                    <tr>
+                        <td>C7. For Autonomy for all provinces of Syria</td>
+                        <td>19</td>
+                        <td>1.02%</td>
+                    </tr>
+                    <tr>
+                        <td colspan="3"><strong>D—Choice of Mandate:</strong></td>
+                    </tr>
+                    <tr>
+                        <td>D1a. For British Mandate</td>
+                        <td>66</td>
+                        <td>3.53%</td>
+                    </tr>
+                    <tr>
+                        <td>D2a. For French Mandate</td>
+                        <td>271</td>
+                        <td>14.52%</td>
+                    </tr>
+                    <tr>
+                        <td>D3a. For American Mandate</td>
+                        <td>57</td>
+                        <td>3.05%</td>
+                    </tr>
+                    <tr>
+                        <td colspan="3"><strong>E—Zionist Program:</strong></td>
+                    </tr>
+                    <tr>
+                        <td>E1. For Complete Zionist program (Jewish State and immigration)</td>
+                        <td>11</td>
+                        <td>0.59%</td>
+                    </tr>
+                    <tr>
+                        <td>E2. For Modified Zionist program</td>
+                        <td>8</td>
+                        <td>0.4%</td>
+                    </tr>
+                    <tr>
+                        <td>E3. Against Zionist program</td>
+                        <td>1350</td>
+                        <td>72.3%</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
 
         <div class="event regional">
             <div class="event-content">
@@ -175,10 +764,8 @@
         </div>
 
         <div class="year-marker">1920</div>
-        
-        <div class="year-marker">1920</div>
     
-        <div class="event levant">
+        <div class="event syria">
             <div class="event-content">
                 <div class="event-date">January 21, 1920</div>
                 <div class="event-country">Syria</div>
@@ -186,7 +773,7 @@
             </div>
         </div>
 
-        <div class="event levant">
+        <div class="event iraq">
             <div class="event-content">
                 <div class="event-date">March 7-April 25, 1920</div>
                 <div class="event-country">Iraq</div>
@@ -194,7 +781,7 @@
             </div>
         </div>
 
-        <div class="event levant">
+        <div class="event syria">
             <div class="event-content">
                 <div class="event-date">May 1920</div>
                 <div class="event-country">Syria and Lebanon</div>
@@ -210,7 +797,7 @@
             </div>
         </div>
 
-        <div class="event levant">
+        <div class="event syria">
             <div class="event-content">
                 <div class="event-date">July 24, 1920</div>
                 <div class="event-country">Syria</div>
@@ -218,7 +805,7 @@
             </div>
         </div>
 
-        <div class="event levant">
+        <div class="event lebanon">
             <div class="event-content">
                 <div class="event-date">August 1920</div>
                 <div class="event-country">Lebanon</div>
@@ -226,7 +813,7 @@
             </div>
         </div>
 
-        <div class="event levant">
+        <div class="event syria">
             <div class="event-content">
                 <div class="event-date">August 1920</div>
                 <div class="event-country">Syria</div>
@@ -292,7 +879,7 @@
             </div>
         </div>
 
-        <div class="event levant">
+        <div class="event jordan">
             <div class="event-content">
                 <div class="event-date">April 1921</div>
                 <div class="event-country">Transjordan</div>
@@ -300,7 +887,7 @@
             </div>
         </div>
 
-        <div class="event levant">
+        <div class="event iraq">
             <div class="event-content">
                 <div class="event-date">August 23, 1921</div>
                 <div class="event-country">Iraq</div>
@@ -316,7 +903,7 @@
             </div>
         </div>
 
-        <div class="event levant">
+        <div class="event syria">
             <div class="event-content">
                 <div class="event-date">1921</div>
                 <div class="event-country">Syria</div>
@@ -339,8 +926,6 @@
                 <p>Distinct nationalist movements (Turkish, Arab, Syrian, Lebanese, Palestinian, Kurdish, Armenian, Assyrian, Egyptian, Iraqi, Transjordanian) begin to solidify</p>
             </div>
         </div>
-
-        Here's the HTML code to add these events to the timeline:
 
         <div class="year-marker">1922</div>
         
@@ -365,6 +950,7 @@
                 <div class="event-date">November 1, 1922</div>
                 <div class="event-country">Turkey</div>
                 <p>Abolition of the Ottoman Sultanate</p>
+
             </div>
         </div>
 
@@ -399,6 +985,7 @@
                 <div class="event-date">October 29, 1923</div>
                 <div class="event-country">Turkey</div>
                 <p>Proclamation of the Republic of Turkey</p>
+
             </div>
         </div>
 
@@ -407,6 +994,7 @@
                 <div class="event-date">1923</div>
                 <div class="event-country">Turkey and Greece</div>
                 <p>Start of Greek-Turkish population exchange (1.6 million people displaced)</p>
+
             </div>
         </div>
 
@@ -415,6 +1003,7 @@
                 <div class="event-date">1923</div>
                 <div class="event-country">Turkey</div>
                 <p>Atatürk's reforms in Turkey begin</p>
+
             </div>
         </div>
 
@@ -425,10 +1014,11 @@
                 <div class="event-date">March 3, 1924</div>
                 <div class="event-country">Turkey</div>
                 <p>Abolition of the Caliphate by Turkey</p>
+
             </div>
         </div>
 
-        <div class="event levant">
+        <div class="event jordan">
             <div class="event-content">
                 <div class="event-date">1924</div>
                 <div class="event-country">Transjordan</div>
@@ -451,10 +1041,11 @@
             <div class="event-date">March 3, 1924</div>
             <div class="event-country">Turkey</div>
             <p>Abolition of the Caliphate by Turkey</p>
+
         </div>
     </div>
 
-    <div class="event levant">
+    <div class="event jordan">
         <div class="event-content">
             <div class="event-date">1924</div>
             <div class="event-country">Transjordan</div>
@@ -472,7 +1063,7 @@
 
     <div class="year-marker">1925</div>
 
-    <div class="event gulf-states">
+    <div class="event saudi">
         <div class="event-content">
             <div class="event-date">January 1925</div>
             <div class="event-country">Saudi Arabia</div>
@@ -485,10 +1076,11 @@
             <div class="event-date">February 1925</div>
             <div class="event-country">Turkey</div>
             <p>Sheikh Said Rebellion (Kurdish uprising) in Turkey (estimated 15,000-40,000 deaths)</p>
+
         </div>
     </div>
 
-    <div class="event levant">
+    <div class="event syria">
         <div class="event-content">
             <div class="event-date">August 23, 1925</div>
             <div class="event-country">Syria</div>
@@ -496,17 +1088,11 @@
         </div>
     </div>
 
-    <div class="event regional">
-        <div class="event-content">
-            <div class="event-date">1925</div>
-            <div class="event-country">Levant</div>
-            <p>Urbanization and internal migration within Levant countries intensifies</p>
-        </div>
     </div>
 
     <div class="year-marker">1927</div>
 
-    <div class="event levant">
+    <div class="event iraq">
         <div class="event-content">
             <div class="event-date">July 1927</div>
             <div class="event-country">Iraq</div>
@@ -519,6 +1105,7 @@
             <div class="event-date">1927</div>
             <div class="event-country">Turkey</div>
             <p>Start of Ararat rebellion (Kurdish uprising in Turkey, continues to 1930)</p>
+
         </div>
     </div>
 
@@ -527,6 +1114,7 @@
             <div class="event-date">1927</div>
             <div class="event-country">Turkey</div>
             <p>Initiation of Kurdish forced resettlement policies in Turkey</p>
+
         </div>
     </div>
 
@@ -540,7 +1128,7 @@
 
     <div class="year-marker">1928</div>
 
-    <div class="event gulf-states">
+    <div class="event saudi">
         <div class="event-content">
             <div class="event-date">1928</div>
             <div class="event-country">Saudi Arabia</div>
@@ -561,6 +1149,7 @@
             <div class="event-date">November 1928</div>
             <div class="event-country">Turkey</div>
             <p>Establishment of the Turkish Language Association (preparatory work begins)</p>
+
         </div>
     </div>
 
@@ -598,7 +1187,7 @@
         </div>
     </div>
 
-    <div class="event gulf-states">
+    <div class="event saudi">
         <div class="event-content">
             <div class="event-date">1929-1930</div>
             <div class="event-country">Saudi Arabia</div>
@@ -616,7 +1205,7 @@
 
     <div class="year-marker">1930</div>
 
-    <div class="event gulf-states">
+    <div class="event saudi">
         <div class="event-content">
             <div class="event-date">January 1930</div>
             <div class="event-country">Saudi Arabia</div>
@@ -632,7 +1221,7 @@
         </div>
     </div>
 
-    <div class="event levant">
+    <div class="event iraq">
         <div class="event-content">
             <div class="event-date">1930</div>
             <div class="event-country">Iraq</div>
@@ -660,7 +1249,7 @@
 
     <div class="year-marker">1932</div>
 
-    <div class="event levant">
+    <div class="event iraq">
         <div class="event-content">
             <div class="event-date">October 3, 1932</div>
             <div class="event-country">Iraq</div>
@@ -668,7 +1257,7 @@
         </div>
     </div>
 
-    <div class="event levant">
+    <div class="event iraq">
         <div class="event-content">
             <div class="event-date">1932</div>
             <div class="event-country">Iraq</div>
@@ -686,7 +1275,7 @@
         </div>
     </div>
 
-    <div class="event levant">
+    <div class="event iraq">
         <div class="event-content">
             <div class="event-date">August 7, 1933</div>
             <div class="event-country">Iraq</div>
@@ -704,7 +1293,7 @@
 
     <div class="year-marker">1934</div>
 
-    <div class="event regional">
+    <div class="event saudi">
         <div class="event-content">
             <div class="event-date">1934</div>
             <div class="event-country">Saudi Arabia and Yemen</div>
@@ -717,6 +1306,7 @@
             <div class="event-date">December 5, 1934</div>
             <div class="event-country">Turkey</div>
             <p>Women's suffrage granted in Turkey</p>
+
         </div>
     </div>
 
@@ -780,7 +1370,7 @@
         </div>
     </div>
 
-    <div class="event levant">
+    <div class="event syria">
         <div class="event-content">
             <div class="event-date">1936</div>
             <div class="event-country">Syria</div>
@@ -816,7 +1406,7 @@
 
     <div class="year-marker">1938</div>
 
-    <div class="event gulf-states">
+    <div class="event kuwait">
         <div class="event-content">
             <div class="event-date">1938</div>
             <div class="event-country">Kuwait</div>
@@ -874,6 +1464,41 @@
         </div>
     </div>
 
+
+    <div class="chart-image-container">
+        <div class="j_immigration_chart">
+            <h2>Jewish Immigration 1919-1939</h2>
+            <div class="j_immigration_bar-container">
+                <div class="j_immigration_date-label">1919 - 1923</div>
+                <div class="j_immigration_bar-wrapper">
+                    <div class="j_immigration_bar" style="width: 16%;">
+                        <span class="j_immigration_bar-value">40,000</span>
+                    </div>
+                </div>
+            </div>
+            <div class="j_immigration_bar-container">
+                <div class="j_immigration_date-label">1924 - 1929</div>
+                <div class="j_immigration_bar-wrapper">
+                    <div class="j_immigration_bar" style="width: 32.8%;">
+                        <span class="j_immigration_bar-value">82,000</span>
+                    </div>
+                </div>
+            </div>
+            <div class="j_immigration_bar-container">
+                <div class="j_immigration_date-label">1929 - 1939</div>
+                <div class="j_immigration_bar-wrapper">
+                    <div class="j_immigration_bar" style="width: 100%;">
+                        <span class="j_immigration_bar-value">250,000</span>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+        
+        <img src="waves.jpg" alt="Levant Timeline Image" class="timeline-image">
+        
+    </div>
+    <h4>Source: Sergio Della Pergola</h4>
 
 
 
