@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sentence Builder Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #1E1E1E;
+            color: #FFFFFF;
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        .container {
+            background-color: #2A2A2A;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            width: 80%;
+            max-width: 600px;
+        }
+        #sentence, #wordBank {
+            min-height: 100px;
+            display: flex;
+            flex-wrap: wrap;
+            align-content: flex-start;
+        }
+        #sentence {
+            font-size: 18px;
+            transition: border 0.3s ease;
+        }
+        .word {
+            display: inline-block;
+            margin: 5px;
+            padding: 5px 10px;
+            background-color: #3A3A3A;
+            color: #FFFFFF;
+            border-radius: 5px;
+            cursor: move;
+            transition: background-color 0.2s ease;
+        }
+        .dragging {
+            opacity: 0.5;
+        }
+        button, input[type="text"] {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #39B8FF;
+            color: #111111;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-bottom: 10px;
+        }
+        button:hover {
+            background-color: #2F9FDB;
+        }
+        .word:hover {
+            background-color: #4A4A4A;
+        }
+        input[type="text"] {
+            width: 80%;
+            max-width: 600px;
+            margin-bottom: 20px;
+            background-color: #2A2A2A;
+            color: #FFFFFF;
+        }
+        h1, h2 {
+            color: #FFFFFF;
+        }
+        #secondaryText {
+            color: #AAAAAA;
+        }
+        .blink-border {
+            border: 5px solid gold !important;
+        }
+    </style>
+</head>
+<body>
+    <h1>Sentence Builder Game</h1>
+    <p id="secondaryText">Rearrange the words to form a sentence</p>
+    <input type="text" id="sentenceInput" placeholder="Enter your sentence here">
+    <button onclick="processSentence()">Process Sentence</button>
+    <div id="sentence" class="container"></div>
+    <div id="wordBank" class="container"></div>
+
+    <script>
+        let draggedElement = null;
+        let currentContainer = null;
+        let originalSentence = '';
+
+        function processSentence() {
+            const input = document.getElementById('sentenceInput').value;
+            if (!input.trim()) {
+                alert("Please enter a sentence.");
+                return;
+            }
+            originalSentence = input.toLowerCase().replace(/[^\w\s]|_/g, "").replace(/\s+/g, " ").trim();
+            const words = input.match(/[a-z0-9]+|[^\w\s]|\s+/gi);
+            
+            const sentenceContainer = document.getElementById('sentence');
+            const wordBank = document.getElementById('wordBank');
+            
+            sentenceContainer.innerHTML = '';
+            wordBank.innerHTML = '';
+            
+            words.forEach(word => {
+                if (word.trim() !== '') {
+                    const wordElement = createWordElement(word);
+                    wordBank.appendChild(wordElement);
+                }
+            });
+        }
+
+        function createWordElement(word) {
+            const wordElement = document.createElement('div');
+            wordElement.className = 'word';
+            wordElement.textContent = word.toLowerCase();
+            wordElement.draggable = true;
+            wordElement.addEventListener('dragstart', dragStart);
+            wordElement.addEventListener('dragend', dragEnd);
+            return wordElement;
+        }
+
+        function dragStart(e) {
+            draggedElement = e.target;
+            setTimeout(() => {
+                if (draggedElement) {
+                    draggedElement.classList.add('dragging');
+                }
+            }, 0);
+        }
+
+        function dragEnd(e) {
+            if (draggedElement) {
+                draggedElement.classList.remove('dragging');
+            }
+            resetWordPositions();
+            updateCapitalization();
+            checkSentence();
+            draggedElement = null;
+        }
+
+        function dragOver(e) {
+            e.preventDefault();
+            currentContainer = e.currentTarget;
+            if (draggedElement) {
+                updateWordPositions(e);
+            }
+        }
+
+        function updateWordPositions(e) {
+            if (!currentContainer || !draggedElement) return;
+
+            const containerRect = currentContainer.getBoundingClientRect();
+            const x = e.clientX - containerRect.left;
+            const y = e.clientY - containerRect.top;
+            
+            const words = Array.from(currentContainer.querySelectorAll('.word:not(.dragging)'));
+            let insertBefore = null;
+
+            for (const word of words) {
+                const rect = word.getBoundingClientRect();
+                if (y < rect.bottom - containerRect.top) {
+                    if (x < rect.right - containerRect.left) {
+                        insertBefore = word;
+                        break;
+                    }
+                }
+            }
+
+            words.forEach(word => {
+                if (word === insertBefore) {
+                    word.style.marginLeft = `${draggedElement.offsetWidth + 10}px`;
+                } else {
+                    word.style.marginLeft = '';
+                }
+            });
+        }
+
+        function resetWordPositions() {
+            const words = Array.from(document.querySelectorAll('.word'));
+            words.forEach(word => {
+                word.style.marginLeft = '';
+            });
+        }
+
+        function updateCapitalization() {
+            const sentenceContainer = document.getElementById('sentence');
+            const words = Array.from(sentenceContainer.querySelectorAll('.word'));
+            words.forEach((word, index) => {
+                if (index === 0) {
+                    word.textContent = word.textContent.charAt(0).toUpperCase() + word.textContent.slice(1).toLowerCase();
+                } else {
+                    word.textContent = word.textContent.toLowerCase();
+                }
+            });
+            
+            const wordBank = document.getElementById('wordBank');
+            const bankWords = Array.from(wordBank.querySelectorAll('.word'));
+            bankWords.forEach((word) => {
+                word.textContent = word.textContent.toLowerCase();
+            });
+        }
+
+        function drop(e) {
+            e.preventDefault();
+            if (!draggedElement || !currentContainer) return;
+            
+            const insertBefore = Array.from(currentContainer.querySelectorAll('.word:not(.dragging)')).find(word => parseFloat(word.style.marginLeft) > 0);
+            
+            if (insertBefore) {
+                currentContainer.insertBefore(draggedElement, insertBefore);
+            } else {
+                currentContainer.appendChild(draggedElement);
+            }
+            
+            if (draggedElement) {
+                draggedElement.classList.remove('dragging');
+            }
+            resetWordPositions();
+            updateCapitalization();
+            checkSentence();
+            draggedElement = null;
+            currentContainer = null;
+        }
+
+        function checkSentence() {
+            const sentenceContainer = document.getElementById('sentence');
+            const words = Array.from(sentenceContainer.querySelectorAll('.word'));
+            const currentSentence = words.map(word => word.textContent.toLowerCase()).join(' ').replace(/[^\w\s]|_/g, "").replace(/\s+/g, " ").trim();
+            
+            if (currentSentence === originalSentence) {
+                blinkBorder();
+            }
+        }
+
+        function blinkBorder() {
+            const sentenceContainer = document.getElementById('sentence');
+            sentenceContainer.classList.add('blink-border');
+            setTimeout(() => {
+                sentenceContainer.classList.remove('blink-border');
+                resetGame();
+            }, 1000);
+        }
+
+        function resetGame() {
+            document.getElementById('sentenceInput').value = '';
+            document.getElementById('sentence').innerHTML = '';
+            document.getElementById('wordBank').innerHTML = '';
+            originalSentence = '';
+        }
+
+        document.getElementById('sentence').addEventListener('dragover', dragOver);
+        document.getElementById('sentence').addEventListener('drop', drop);
+        document.getElementById('wordBank').addEventListener('dragover', dragOver);
+        document.getElementById('wordBank').addEventListener('drop', drop);
+    </script>
+</body>
+</html>
