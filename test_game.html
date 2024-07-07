@@ -41,7 +41,7 @@
             background-color: #3A3A3A;
             color: #FFFFFF;
             border-radius: 5px;
-            cursor: move;
+            cursor: pointer;
             transition: background-color 0.2s ease;
         }
         .dragging {
@@ -124,7 +124,18 @@
             wordElement.draggable = true;
             wordElement.addEventListener('dragstart', dragStart);
             wordElement.addEventListener('dragend', dragEnd);
+            wordElement.addEventListener('click', handleWordClick);
             return wordElement;
+        }
+
+        function handleWordClick(e) {
+            const clickedWord = e.target;
+            const sourceContainer = clickedWord.parentElement;
+            const targetContainer = (sourceContainer.id === 'sentence') ? document.getElementById('wordBank') : document.getElementById('sentence');
+            
+            targetContainer.appendChild(clickedWord);
+            updateCapitalization();
+            checkSentence();
         }
 
         function dragStart(e) {
