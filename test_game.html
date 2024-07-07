@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sentence Builder Game</title>
+    <title>Kurdish Sentence Builder Game</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -47,74 +47,357 @@
         .dragging {
             opacity: 0.5;
         }
-        button, input[type="text"] {
-            padding: 10px 20px;
-            font-size: 16px;
-            background-color: #39B8FF;
-            color: #111111;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            margin-bottom: 10px;
-        }
-        button:hover {
-            background-color: #2F9FDB;
-        }
         .word:hover {
             background-color: #4A4A4A;
         }
-        input[type="text"] {
-            width: 80%;
-            max-width: 600px;
-            margin-bottom: 20px;
-            background-color: #2A2A2A;
-            color: #FFFFFF;
-        }
-        h1, h2 {
-            color: #FFFFFF;
-        }
         #secondaryText {
             color: #AAAAAA;
+            font-size: 18px;
+            margin-bottom: 10px;
         }
         .blink-border {
             border: 5px solid gold !important;
         }
+        #popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #2A2A2A;
+            padding: 20px;
+            border-radius: 10px;
+            display: none;
+            z-index: 1000;
+        }
+        #nextSentenceBtn {
+            display: none;
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 5px;
+            width: 80%;
+            max-width: 600px;
+        }
+        #sentenceCounter {
+            font-size: 18px;
+            color: #AAAAAA;
+            margin-top: auto;
+            padding-top: 20px;
+        }
     </style>
 </head>
 <body>
-    <h1>Sentence Builder Game</h1>
-    <p id="secondaryText">Rearrange the words to form a sentence</p>
-    <input type="text" id="sentenceInput" placeholder="Enter your sentence here">
-    <button onclick="processSentence()">Process Sentence</button>
+    <p id="secondaryText"></p>
     <div id="sentence" class="container"></div>
     <div id="wordBank" class="container"></div>
+    <button id="nextSentenceBtn">Next Sentence</button>
+    <div id="popup">All sentences finished!</div>
+    <div id="sentenceCounter">Sentences Completed: 0</div>
 
     <script>
         let draggedElement = null;
         let currentContainer = null;
         let originalSentence = '';
+        let currentTranslation = '';
+        let completedSentences = new Set();
+        let availableSentences = [];
+        let sentenceCount = 0;
 
-        function processSentence() {
-            const input = document.getElementById('sentenceInput').value;
-            if (!input.trim()) {
-                alert("Please enter a sentence.");
+        const sentences = [
+            "Bala xwe bidin ser vê xalê.",
+            "Avahiyên bilind li bajêr zêde dibin.",
+            "Yewnanistanê gelek bandor li ser çanda Ewropayê kiriye.",
+            "Mijareke balkêş hate nîqaşkirin.",
+            "Tiştên ecêb di jiyanê de pir in.",
+            "Her kes xwedî taybetmendiyên taybet e.",
+            "Serpêhatiyê wî gelek balkêş bû.",
+            "Em ê beşdarî vê civînê bibin.",
+            "Zarok her tim meraq dikin.",
+            "Keştiyê ber bi asoyê ve diçû.",
+            "Çûyîna wî me xemgîn kir.",
+            "Fêde ji vê tecrubeyê werbigire.",
+            "Xwedayan di mîtolojiyê de cih digirin.",
+            "Ez dixwazim bêtir fêr bibim.",
+            "Bandorê li ser biryara min kir.",
+            "Pêşketinek mezin di warê teknolojiyê de çêbû.",
+            "Ravekiinê wê mijarê zelaltir kir.",
+            "Xalîçeyên kurdî bi rengên xwe navdar in.",
+            "Ev bûyer bala min dikişîne.",
+            "Wî bi heyranî li asîman dinihêrî.",
+            "Mijar gelekî balkêş bû.",
+            "Helbestan dilê min xweş kir.",
+            "Min hewl da ku vê pirsgirêkê çareser bikim.",
+            "Gerstêrkan di gerdûnê de digerin.",
+            "Ramanek nû di hişê min de çêbû.",
+            "Zanista modern jiyana me hêsantir dike.",
+            "Têkilî di navbera mirovan de girîng e.",
+            "Derbarê vê mijarê de gelek tişt hene ku em bêjin.",
+            "Kevneşopî nasnameya civakê ye.",
+            "Her cûre huner xwedî taybetmendiyên xwe ye.",
+            "Bandor li ser min hişt.",
+            "Dostên baş hêjayî zêrî ne.",
+            "Lêkolînên zanistî pêşeroja me ava dikin.",
+            "Gerdûnê hê gelek razên xwe veşartî ne.",
+            "Her cure çand dewlemendiya mirovahiyê ye.",
+            "Mînakekê ji vê rewşê bide min.",
+            "Paytexta welêt gelek xweşik e.",
+            "Çermê wî bi germbûnê re sor bû.",
+            "Pirtûkên bijarte li pirtûkxaneya min hene.",
+            "Mebest ji vê gotinê çi ye?",
+            "Hûn dikarin vê têgehê tarîf bikin?",
+            "Zeviyan tevî berfê spî bûne.",
+            "Derheqê vê mijarê de gelek tişt hene ku em bêjin.",
+            "Hişê mirov bi xwendinê dewlemend dibe.",
+            "Min dixwest vê yekê ji we re şîrove bikim.",
+            "Gumbezan dilê bajarê kevn dixemiland.",
+            "Em dixwazin pêwendiyên xurt saz bikin.",
+            "Cîhanên nû li benda me ne.",
+            "Qehremaniyê di çîrokên gelêrî de cih digire.",
+            "Şerên dirêj civakê birîndar dikin.",
+            "Berhemên hunerî ruhê civakê nîşan didin.",
+            "Serpêhatiyên wî gelek balkêş in.",
+            "Fêkî ji bo tendurustiyê gelek baş e.",
+            "Çareser di nava pirsgirêkê de veşartî ye.",
+            "Biharê kulîlk tînin.",
+            "Tavê berfê dihelînin.",
+            "Pelên daran di payîzê de diweşin.",
+            "Cilên nû min kêfxweş dikin.",
+            "Dîmenên xwezayê min mest dikin.",
+            "Sêhr di çîrokên zarokan de heye.",
+            "Perwerde kilîta pêşerojê ye.",
+            "Kevneşopiyên me dewlemendiya me ne.",
+            "Ez dixwazim we agahdar bikim.",
+            "Zanistê jiyana me hêsantir kiriye.",
+            "Cejna Newrozê her sal tê pîroz kirin.",
+            "Giranî li ser milên min e.",
+            "Têgihiştina mijarê dê alîkariya we bike.",
+            "Xeyalek bê sînor dikare cîhanê biguherîne.",
+            "Efsaneyên kevn hîn jî tên gotin.",
+            "Keştiyên mezin li bendergahê ne.",
+            "Karê rêkûpêk encamên baş tîne.",
+            "Qesra padîşah gelek mezin bû.",
+            "Alavên nû xebatê hêsantir dikin.",
+            "Ez pirtûkê li ser maseyê datînim.",
+            "Kom bi hev re xurt in.",
+            "Amûrên nû karê cotkar hêsan dikin.",
+            "Karê me pêk hat.",
+            "Berhevkirina agahiyan demeke dirêj dixwaze.",
+            "Tu gelek zanîn di xwe de dihewînî.",
+            "Karê hunerî dilê mirovan dixe.",
+            "Agirdanka germ mala me xweş dike.",
+            "Bapîrê min çîrokên kevn dizane.",
+            "Guldankeke rengîn odeyê xweşik dike.",
+            "Biharê bi xwe re geşiyê tîne.",
+            "Têkiliyên baş jiyanê xweştir dikin.",
+            "Rêxistinên navneteweyî li ser aştiyê dixebitin.",
+            "Zimanê zikmakî nasnameya me ye.",
+            "Ez bi we re hemfikir im.",
+            "Wî her tim bîranînên xweş dianî.",
+            "Me armancên hevpar hene.",
+            "Gerdûnî bûn cîhanê biçûk dike.",
+            "Bandoreke erênî li ser min hişt.",
+            "Encamên neyînî me neçar kirin ku em biguherin.",
+            "Sûdê ji vê fersendê werbigire.",
+            "Parastina xwezayê erkê me hemûyan e.",
+            "Ziman amrazekî ragihandinê ye.",
+            "Xwendevanên jêhatî serkeftî dibin.",
+            "Divê em bigihîjin armancên xwe.",
+            "Bikaranîna çekan xeternak e.",    
+            "Cîhanî pêwendiyên me guherandin.",
+            "Tercîh kirin her tim ne hêsan e.",
+            "Fikrek nû çêbû di serê min de.",
+            "Derfetekê nede dest bernedin.",
+            "Nifşên nû teknolojiyê baş bi kar tînin.",
+            "Ez dixwazim çanda xwe biparêzim.",
+            "Pêş ve çûyîn gelek girîng e.",
+            "Pêşerojê me hemûyan eleqedar dike.",
+            "Sedemên pirsgirêkê gelek in.",
+            "Tecrubeyan jiyana min dewlemend kir.",
+            "Çi tu bidestxî, bi xebatê ye.",
+            "Ramanan min ber bi rastiyê ve kişandine.",
+            "Şertên jiyanê her tim ne hêsan in.",
+            "Vejandina zimanê kurdî pêwîst e.",
+            "Edebiyat ruhê neteweyekê ye.",
+            "Diviya ez zûtir bihatama.",
+            "Bextewer e yê ku ji jiyana xwe razî ye.",
+            "Biryar dan carinan zehmet e.",
+            "Mirovê jîr çareseriyê dibîne.",
+            "Demekê li ser vê yekê bifikire."
+        ];
+
+        const translations = [
+            "Pay attention to this point.",
+            "Tall buildings are increasing in the city.",
+            "Greece has had a great influence on European culture.",
+            "An interesting topic was discussed.",
+            "There are many odd things in life.",
+            "Everyone has special characteristics.",
+            "His adventure was very interesting.",
+            "We will participate in this meeting.",
+            "Children are always curious.",
+            "The ship was heading towards the horizon.",
+            "His leaving made us sad.",
+            "Benefit from this experience.",
+            "The gods take place in mythology.",
+            "I want to learn more.",
+            "It had an influence on my decision.",
+            "A major development occurred in the field of technology.",
+            "The clarification made that subject clearer.",
+            "Kurdish carpets are famous for their colors.",
+            "This event draws my attention.",
+            "He was looking at the sky with admiration.",
+            "The topic was very interesting.",
+            "Poetry made my heart happy.",
+            "I tried to solve this problem.",
+            "Planets revolve in the universe.",
+            "A new thought formed in my mind.",
+            "Modern science makes our lives easier.",
+            "Communication between people is important.",
+            "There is much to say about this subject.",
+            "Tradition is the identity of society.",
+            "Each genre of art has its own characteristics.",
+            "It left an influence on me.",
+            "Good friends are worth gold.",
+            "Scientific research builds our future.",
+            "The universe still has many hidden secrets.",
+            "Every type of culture is the wealth of humanity.",
+            "Give me an example of this situation.",
+            "The capital of the country is very beautiful.",
+            "His skin turned red with the heat.",
+            "I have selected books in my library.",
+            "What is the purpose of this saying?",
+            "Can you define this concept?",
+            "The fields have turned white with snow.",
+            "There is much to say about this subject.",
+            "The human mind is enriched by reading.",
+            "I wanted to explain this to you.",
+            "The domes adorned the heart of the old city.",
+            "We want to establish strong relationships.",
+            "New worlds are waiting for us.",
+            "Heroism takes place in folk tales.",
+            "Long wars wound society.",
+            "Artistic works show the spirit of society.",
+            "His adventures are very interesting.",
+            "Fruit is very good for health.",
+            "The solution is hidden within the problem.",
+            "Spring brings flowers.",
+            "The sun melts the snow.",
+            "The leaves of trees fall in autumn.",
+            "New clothes make me happy.",
+            "Nature scenes intoxicate me.",
+            "Magic exists in children's stories.",
+            "Education is the key to the future.",
+            "Our traditions are our wealth.",
+            "I want to inform you.",
+            "Science has made our lives easier.",
+            "Newroz festival is celebrated every year.",
+            "The weight is on my shoulders.",
+            "Understanding the subject will help you.",
+            "An unlimited imagination can change the world.",
+            "Old myths are still told.",
+            "Large ships are at the port.",
+            "Orderly work brings good results.",
+            "The king's palace was very large.",
+            "New equipment makes work easier.",
+            "I put the book on the table.",
+            "Groups are strong together.",
+            "New tools make the farmer's work easier.",
+            "Our work is done.",
+            "Collecting information takes a long time.",
+            "You contain a lot of knowledge within yourself.",
+            "Artistic work touches people's hearts.",
+            "The warm fireplace makes our home cozy.",
+            "My grandfather knows old stories.",
+            "A colorful vase beautifies the room.",
+            "Spring brings vitality with it.",
+            "Good relationships make life more pleasant.",
+            "International organizations work for peace.",
+            "Mother tongue is our identity.",
+            "I agree with you.",
+            "He always brought pleasant memories.",
+            "We have common goals.",
+            "Globalization makes the world smaller.",
+            "It left a positive effect on me.",
+            "Negative results forced us to change.",
+            "Take advantage of this opportunity.",
+            "Protecting nature is the duty of us all.",
+            "Language is a tool of communication.",
+            "Talented students succeed.",
+            "We must reach our goals.",
+            "The use of weapons is dangerous.",    
+            "A new idea formed in my head.",
+            "Don't let go of an opportunity.",
+            "New generations use technology well.",
+            "I want to protect my culture.",
+            "Moving forward is very important.",
+            "The future concerns us all.",
+            "There are many reasons for the problem.",
+            "Experiences have enriched my life.",
+            "Whatever you accomplish is through work.",
+            "Thoughts have pulled me towards reality.",
+            "Life's terms are not always easy.",
+            "The revival of the Kurdish language is necessary.",
+            "Literature is the soul of a nation.",
+            "I had to come earlier.",
+            "Happy is the one who is content with their life.",
+            "Making a decision is sometimes difficult.",
+            "A clever person finds a solution.",
+            "Think about this for a while."
+        ];
+
+        function initializeGame() {
+            availableSentences = [...Array(sentences.length).keys()];
+            newSentence();
+        }
+
+        function newSentence() {
+            if (availableSentences.length === 0) {
+                document.getElementById('popup').style.display = 'block';
                 return;
             }
-            originalSentence = input.toLowerCase().replace(/[^\w\s]|_/g, "").replace(/\s+/g, " ").trim();
-            const words = input.match(/[a-z0-9]+|[^\w\s]|\s+/gi);
+
+            let randomIndex = Math.floor(Math.random() * availableSentences.length);
+            let selectedIndex = availableSentences[randomIndex];
+
+            // Remove the selected index from availableSentences
+            availableSentences.splice(randomIndex, 1);
+
+            originalSentence = sentences[selectedIndex].toLowerCase().replace(/[^\p{L}\s]|_/gu, "").replace(/\s+/g, " ").trim();
+            currentTranslation = translations[selectedIndex];
+            const words = sentences[selectedIndex].match(/\p{L}+|[^\p{L}\s]+|\s+/gu);
             
             const sentenceContainer = document.getElementById('sentence');
             const wordBank = document.getElementById('wordBank');
+            const secondaryText = document.getElementById('secondaryText');
             
+            secondaryText.innerHTML = currentTranslation;
             sentenceContainer.innerHTML = '';
             wordBank.innerHTML = '';
             
-            words.forEach(word => {
+            // Show word bank and hide next sentence button
+            wordBank.style.display = 'flex';
+            document.getElementById('nextSentenceBtn').style.display = 'none';
+            
+            // Shuffle the words array
+            for (let i = words.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [words[i], words[j]] = [words[j], words[i]];
+            }
+            
+            words.forEach((word) => {
                 if (word.trim() !== '') {
                     const wordElement = createWordElement(word);
                     wordBank.appendChild(wordElement);
                 }
             });
+            
+            updateCapitalization();
         }
 
         function createWordElement(word) {
@@ -211,12 +494,6 @@
                     word.textContent = word.textContent.toLowerCase();
                 }
             });
-            
-            const wordBank = document.getElementById('wordBank');
-            const bankWords = Array.from(wordBank.querySelectorAll('.word'));
-            bankWords.forEach((word) => {
-                word.textContent = word.textContent.toLowerCase();
-            });
         }
 
         function drop(e) {
@@ -244,7 +521,7 @@
         function checkSentence() {
             const sentenceContainer = document.getElementById('sentence');
             const words = Array.from(sentenceContainer.querySelectorAll('.word'));
-            const currentSentence = words.map(word => word.textContent.toLowerCase()).join(' ').replace(/[^\w\s]|_/g, "").replace(/\s+/g, " ").trim();
+            const currentSentence = words.map(word => word.textContent.toLowerCase()).join(' ').replace(/[^\p{L}\s]|_/gu, "").replace(/\s+/g, " ").trim();
             
             if (currentSentence === originalSentence) {
                 blinkBorder();
@@ -256,21 +533,35 @@
             sentenceContainer.classList.add('blink-border');
             setTimeout(() => {
                 sentenceContainer.classList.remove('blink-border');
-                resetGame();
+                completedSentences.add(sentences.indexOf(originalSentence));
+                updateSentenceCounter();
+                showNextSentenceButton();
             }, 1000);
         }
 
-        function resetGame() {
-            document.getElementById('sentenceInput').value = '';
-            document.getElementById('sentence').innerHTML = '';
-            document.getElementById('wordBank').innerHTML = '';
-            originalSentence = '';
+        function showNextSentenceButton() {
+            const wordBank = document.getElementById('wordBank');
+            const nextSentenceBtn = document.getElementById('nextSentenceBtn');
+            wordBank.style.display = 'none';
+            nextSentenceBtn.style.display = 'block';
+        }
+
+        function updateSentenceCounter() {
+            sentenceCount++;
+            document.getElementById('sentenceCounter').textContent = `Sentences Completed: ${sentenceCount}`;
         }
 
         document.getElementById('sentence').addEventListener('dragover', dragOver);
         document.getElementById('sentence').addEventListener('drop', drop);
         document.getElementById('wordBank').addEventListener('dragover', dragOver);
         document.getElementById('wordBank').addEventListener('drop', drop);
+
+        document.getElementById('nextSentenceBtn').addEventListener('click', () => {
+            newSentence();
+        });
+
+        // Initialize the game
+        initializeGame();
     </script>
 </body>
 </html>
