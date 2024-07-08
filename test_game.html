@@ -84,6 +84,21 @@
             width: 80%;
             max-width: 600px;
         }
+        #showAnswerBtn {
+            display: block;
+            background-color: #4A4A4A;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            font-size: 14px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 5px;
+            width: 40%;
+            max-width: 300px;
+        }
         #sentenceCounter {
             font-size: 18px;
             color: #AAAAAA;
@@ -96,8 +111,9 @@
     <p id="secondaryText"></p>
     <div id="sentence" class="container"></div>
     <div id="wordBank" class="container"></div>
+    <button id="showAnswerBtn">Show Answer</button>
     <button id="nextSentenceBtn">Next Sentence</button>
-    <div id="popup">All sentences finished!</div>
+    <div id="popup"></div>
     <div id="sentenceCounter">Sentences Completed: 0</div>
 
     <script>
@@ -105,8 +121,6 @@
         let currentContainer = null;
         let originalSentence = '';
         let currentTranslation = '';
-        let completedSentences = new Set();
-        let availableSentences = [];
         let sentenceCount = 0;
 
         const sentences = [
@@ -230,7 +244,6 @@
             "Mirovê jîr çareseriyê dibîne.",
             "Demekê li ser vê yekê bifikire."
         ];
-
         const translations = [
             "Pay attention to this point.",
             "Tall buildings are increasing in the city.",
@@ -354,25 +367,13 @@
         ];
 
         function initializeGame() {
-            availableSentences = [...Array(sentences.length).keys()];
             newSentence();
         }
 
         function newSentence() {
-            if (availableSentences.length === 0) {
-                document.getElementById('popup').style.display = 'block';
-                return;
-            }
-
-            let randomIndex = Math.floor(Math.random() * availableSentences.length);
-            let selectedIndex = availableSentences[randomIndex];
-
-            // Remove the selected index from availableSentences
-            availableSentences.splice(randomIndex, 1);
-
-            originalSentence = sentences[selectedIndex].toLowerCase().replace(/[^\p{L}\s]|_/gu, "").replace(/\s+/g, " ").trim();
-            currentTranslation = translations[selectedIndex];
-            const words = sentences[selectedIndex].match(/\p{L}+|[^\p{L}\s]+|\s+/gu);
+            originalSentence = sentences[0].toLowerCase().replace(/[^\p{L}\s]|_/gu, "").replace(/\s+/g, " ").trim();
+            currentTranslation = translations[0];
+            const words = sentences[0].match(/\p{L}+|[^\p{L}\s]+|\s+/gu);
             
             const sentenceContainer = document.getElementById('sentence');
             const wordBank = document.getElementById('wordBank');
@@ -382,9 +383,9 @@
             sentenceContainer.innerHTML = '';
             wordBank.innerHTML = '';
             
-            // Show word bank and hide next sentence button
             wordBank.style.display = 'flex';
             document.getElementById('nextSentenceBtn').style.display = 'none';
+            document.getElementById('showAnswerBtn').style.display = 'block';
             
             // Shuffle the words array
             for (let i = words.length - 1; i > 0; i--) {
@@ -535,7 +536,6 @@
             sentenceContainer.classList.add('blink-border');
             setTimeout(() => {
                 sentenceContainer.classList.remove('blink-border');
-                completedSentences.add(sentences.indexOf(originalSentence));
                 updateSentenceCounter();
                 showNextSentenceButton();
             }, 1000);
@@ -544,13 +544,25 @@
         function showNextSentenceButton() {
             const wordBank = document.getElementById('wordBank');
             const nextSentenceBtn = document.getElementById('nextSentenceBtn');
+            const showAnswerBtn = document.getElementById('showAnswerBtn');
             wordBank.style.display = 'none';
             nextSentenceBtn.style.display = 'block';
+            showAnswerBtn.style.display = 'none';
         }
 
         function updateSentenceCounter() {
             sentenceCount++;
             document.getElementById('sentenceCounter').textContent = `Sentences Completed: ${sentenceCount}`;
+        }
+
+        function showAnswer() {
+            const popup = document.getElementById('popup');
+            popup.textContent = sentences[0];
+            popup.style.display = 'block';
+            
+            setTimeout(() => {
+                popup.style.display = 'none';
+            }, 1500);
         }
 
         document.getElementById('sentence').addEventListener('dragover', dragOver);
@@ -561,6 +573,8 @@
         document.getElementById('nextSentenceBtn').addEventListener('click', () => {
             newSentence();
         });
+
+        document.getElementById('showAnswerBtn').addEventListener('click', showAnswer);
 
         // Initialize the game
         initializeGame();
